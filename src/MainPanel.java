@@ -1,17 +1,32 @@
 import java.awt.Color;
 import java.awt.Graphics;
+import java.util.ArrayList;
+
 import javax.swing.JPanel;
 
 public class MainPanel extends JPanel {
+
+    private ArrayList<Tank> tanks = new ArrayList<>();
+    private ArrayList<Platform> platforms = new ArrayList<>();
+
+    public MainPanel() {
+        tanks.add(new Tank("asdfas", 50, 20, 0, 0));
+        for (int i = -250; i < 250; i += 100) {
+            platforms.add(new Platform(Math.abs(i+50) / 10, i, i + 100));
+        }
+    }
+
     @Override
     public void paintComponent(Graphics g) {
+        Tank player = tanks.get(0);
+        g.translate(getWidth() / 2 - player.getCenterX(), getHeight() - 60 - player.getBottomY());
         g.setColor(Color.GRAY);
         g.fillRect(0, 0, getWidth(), getHeight());
-        g.setColor(Color.YELLOW);
-        g.fillRect(getWidth() / 2 - 25, getHeight() - 100, 50, 20);
-        g.setColor(Color.GREEN);
-        g.fillRect(0, getHeight() - 80, getWidth(), 10);
-        g.setColor(new Color(135, 42, 42));
-        g.fillRect(0, getHeight() - 70, getWidth(), 70);
+        for (Platform platform : platforms) {
+            platform.paintMe(g);
+        }
+        for (Tank tank : tanks) {
+            tank.paintMe(g);
+        }
     }
 }

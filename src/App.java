@@ -28,7 +28,6 @@ public class App {
         frame.setContentPane(mainPanel);
         frame.setVisible(true);
         timer = new Timer();
-        System.out.println(SwingUtilities.isEventDispatchThread());
         timer.scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
