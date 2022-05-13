@@ -36,7 +36,6 @@ public class App {
                     @Override
                     public void run() {
                         mainPanel.repaint();
-                        System.out.println(SwingUtilities.isEventDispatchThread());
                     }
                 });
             }
