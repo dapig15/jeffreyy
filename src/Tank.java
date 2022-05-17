@@ -1,6 +1,7 @@
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
+import java.awt.image.ImagingOpException;
 import java.io.File;
 import java.io.IOException;
 
@@ -8,17 +9,17 @@ import javax.imageio.ImageIO;
 
 public class Tank {
     private BufferedImage tankBody;
+    private BufferedImage tankNose;
     private int width, height;
     private int centerX, bottomY;
 
     public Tank(String fileName, int width, int height, int centerX, int bottomY) {
-        /*
-         * try {
-         * tankBody = ImageIO.read(new File(fileName));
-         * } catch (IOException ioe) {
-         * ioe.printStackTrace();
-         * }
-         */
+        try {
+            tankBody = ImageIO.read(new File(fileName));
+            tankNose= ImageIO.read(new File("images\\tnKnksnose.png"));
+        } catch (IOException ioe) {
+
+        }
         this.width = width;
         this.height = height;
         this.centerX = centerX;
@@ -59,9 +60,8 @@ public class Tank {
 
     public void paintMe(Graphics g) {
         g.setColor(Color.black);
-        g.drawRect(centerX - width / 2, bottomY - height, width, height);
-        // g.drawImage(tankBody, centerX - width / 2, bottomY - height, width, height,
-        // null);
+        g.drawImage(tankNose,centerX+width/2-27,bottomY-height+12,28,4,null);
+        g.drawImage(tankBody, centerX - width / 2, bottomY - height, width, height, null);
     }
 
 }

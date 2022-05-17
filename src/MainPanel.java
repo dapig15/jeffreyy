@@ -10,7 +10,7 @@ public class MainPanel extends JPanel {
     private ArrayList<Platform> platforms = new ArrayList<>();
 
     public MainPanel() {
-        tanks.add(new Tank("asdfas", 50, 20, 0, 0));
+        tanks.add(new Tank("images\\tnKnks.png", 53, 31, 0, 0));
         for (int i = -250; i < 250; i += 100) {
             platforms.add(new Platform(Math.abs(i+50) / 10, i, i + 100));
         }
