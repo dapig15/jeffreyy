@@ -7,7 +7,7 @@ import javax.swing.JFrame;
 
 public class App {
     private JFrame frame;
-    private JPanel mainPanel;
+    private MainPanel mainPanel;
     private Timer timer;
 
     public static void main(String[] args) throws Exception {
@@ -34,6 +34,7 @@ public class App {
                 SwingUtilities.invokeLater(new Runnable() {
                     @Override
                     public void run() {
+                        mainPanel.update();
                         mainPanel.repaint();
                     }
                 });
