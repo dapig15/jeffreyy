@@ -20,8 +20,6 @@ public class MainPanel extends JPanel {
     public void paintComponent(Graphics g) {
         Tank player = tanks.get(0);
         g.translate(getWidth() / 2 - player.getCenterX(), getHeight() - 60 - player.getBottomY());
-        g.setColor(Color.GRAY);
-        g.fillRect(0, 0, getWidth(), getHeight());
         for (Platform platform : platforms) {
             platform.paintMe(g);
         }
