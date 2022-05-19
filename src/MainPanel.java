@@ -9,6 +9,7 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
+import javax.swing.text.AttributeSet.ColorAttribute;
 
 public class MainPanel extends JPanel {
 
@@ -17,8 +18,12 @@ public class MainPanel extends JPanel {
     private int framesAlive = 0;
     private BufferedImage cloudBkgd, topBkgd;
 
+    public int getFramesAlive() {
+        return framesAlive;
+    }
+
     public MainPanel() {
-        tanks.add(new Tank("images\\tnKnks.png", 53, 31, 0, 0));
+        tanks.add(new Tank(53, 31, 0, 0));
         for (int i = -250; i < 250; i += 100) {
             platforms.add(new Platform(Math.abs(i + 50) / 10, i, i + 100));
         }
@@ -50,7 +55,20 @@ public class MainPanel extends JPanel {
             platform.paintMe(g);
         }
         for (Tank tank : tanks) {
+            tank.setAngle(framesAlive / 10f);
             tank.paintMe(g);
         }
+        FontGenerator.writeMulticoloredText(g,
+                "|Target's x-displacement: |1000 m\n" +
+                        "|Target's y-displacement: |0 m\n" +
+                        "|Initial |S|peed: |5 m/s\n" +
+                        "|Initial |A|ngle: |pi/2 radians\n" +
+                        "|Accel in Y direction: |-5 m/(ss)\n",
+                20 - xChange, 20 - yChange, 2, new Color[] {
+                        Color.GRAY, Color.BLACK,
+                        Color.GRAY, Color.BLACK,
+                        Color.GRAY, Color.RED, Color.GRAY, Color.BLACK,
+                        Color.GRAY, Color.RED, Color.GRAY, Color.BLACK,
+                        Color.GRAY, Color.BLACK });
     }
 }

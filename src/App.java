@@ -11,6 +11,7 @@ public class App {
     private Timer timer;
 
     public static void main(String[] args) throws Exception {
+        FontGenerator.prime();
         App app = new App();
         SwingUtilities.invokeLater(new Runnable() {
             @Override

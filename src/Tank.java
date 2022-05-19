@@ -1,5 +1,6 @@
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.awt.image.ImagingOpException;
 import java.io.File;
@@ -12,11 +13,12 @@ public class Tank {
     private BufferedImage tankNose;
     private int width, height;
     private int centerX, bottomY;
+    private float angle = 0;
 
-    public Tank(String fileName, int width, int height, int centerX, int bottomY) {
+    public Tank(int width, int height, int centerX, int bottomY) {
         try {
-            tankBody = ImageIO.read(new File(fileName));
-            tankNose= ImageIO.read(new File("images\\tnKnksnose.png"));
+            tankBody = ImageIO.read(new File("images/tank_body.png"));
+            tankNose = ImageIO.read(new File("images/tank_nose.png"));
         } catch (IOException ioe) {
 
         }
@@ -58,10 +60,32 @@ public class Tank {
         this.bottomY = bottomY;
     }
 
+    public float getAngle() {
+        return angle;
+    }
+
+    public void setAngle(float angle) {
+        if (angle < 0) {
+            angle += (float) (((int) (Math.abs(angle) / ((2 * Math.PI))) + 1) * (2 * Math.PI));
+        }
+        this.angle = angle % ((float) (2 * Math.PI));
+    }
+
     public void paintMe(Graphics g) {
+        final int noseOffset = 12;
+
         g.setColor(Color.black);
-        g.drawImage(tankNose,centerX+width/2-27,bottomY-height+12,28,4,null);
-        g.drawImage(tankBody, centerX - width / 2, bottomY - height, width, height, null);
+        Graphics2D g2d = (Graphics2D) g;
+        g2d.translate(centerX, bottomY - height + noseOffset);
+        g2d.rotate(angle);
+        g.drawImage(tankNose, 0, 0, null);
+        g2d.rotate(-angle);
+        g2d.translate(-centerX, -(bottomY - height + noseOffset));
+        if (Math.abs(Math.PI - angle) >= (Math.PI / 2)) {
+            g.drawImage(tankBody, centerX - width / 2, bottomY - height, width, height, null);
+        } else {
+            g.drawImage(tankBody, centerX + width / 2, bottomY - height, -width, height, null);
+        }
     }
 
 }
