@@ -12,7 +12,7 @@ import javax.swing.SwingUtilities;
 import javax.swing.text.AttributeSet.ColorAttribute;
 
 public class MainPanel extends JPanel {
-
+    private String text;
     private ArrayList<Tank> tanks = new ArrayList<>();
     private ArrayList<Platform> platforms = new ArrayList<>();
     private int framesAlive = 0;
@@ -34,7 +34,12 @@ public class MainPanel extends JPanel {
             e.printStackTrace();
         }
     }
-
+    public void newProblem(String notGiven, String[] given, String[] givenValues) {
+        text = "";
+        for (int i = 0;i < given.length;i++) {
+            text += "| " + given[i] + ": " + "|" + givenValues[i] + "\n";
+        }
+    }
     public void update() {
         framesAlive++;
     }
@@ -59,11 +64,7 @@ public class MainPanel extends JPanel {
             tank.paintMe(g);
         }
         FontGenerator.writeMulticoloredText(g,
-                "|Target's x-displacement: |1000 m\n" +
-                        "|Target's y-displacement: |0 m\n" +
-                        "|Initial |S|peed: |5 m/s\n" +
-                        "|Initial |A|ngle: |pi/2 radians\n" +
-                        "|Accel in Y direction: |-5 m/(ss)\n",
+                text,
                 20 - xChange, 20 - yChange, 2, new Color[] {
                         Color.GRAY, Color.BLACK,
                         Color.GRAY, Color.BLACK,
@@ -72,3 +73,8 @@ public class MainPanel extends JPanel {
                         Color.GRAY, Color.BLACK });
     }
 }
+//"|Target's x-displacement: |1000 m\n" +
+//                        "|Target's y-displacement: |0 m\n" +
+//                        "|Initial |S|peed: |5 m/s\n" +
+//                        "|Initial |A|ngle: |pi/2 radians\n" +
+//                        "|Accel in Y direction: |-5 m/(ss)\n",
