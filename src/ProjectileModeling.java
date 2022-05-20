@@ -79,7 +79,7 @@ public class ProjectileModeling {
     }
 
     public double calcYPos(double currentYPixel, double time) {
-        return currentYPixel + (verticalVelocity * time) - (gravity * time * time);
+        return currentYPixel + (verticalVelocity * time) - (gravity * time * time / 2);
     }
 
     public String xParametric(double velocity, double angle) {

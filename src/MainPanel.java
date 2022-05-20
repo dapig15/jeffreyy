@@ -22,6 +22,7 @@ public class MainPanel extends JPanel {
     private BufferedImage cloudBkgd, topBkgd;
     private int currentlyEditing = -1;
     private StringBuilder stringBuilder = new StringBuilder();
+    private ProjectileModeling pm;
 
     private final String[] bases = new String[] {
             "|Target's |X|-displacement: |",
@@ -67,6 +68,7 @@ public class MainPanel extends JPanel {
                         newVal = Math.max(-10000f, Math.min(10000f, newVal));
                         currentValues[currentlyEditing] = newVal;
                         currentlyEditing = -1;
+                        
                     } catch (NumberFormatException nfe) {
                         nfe.printStackTrace();
                     }
@@ -133,6 +135,8 @@ public class MainPanel extends JPanel {
                 "When you're done, type ENTER to lock it in.\n" +
                 "Make sure you type a valid decimal!\n" +
                 "Click the tank to fire!";
+        pm = new ProjectileModeling(currentValues[5], (float) (currentValues[2] * Math.cos(currentValues[3])),
+                (float) (currentValues[2] * Math.sin(currentValues[3])));
     }
 
     public void update() {
