@@ -49,10 +49,15 @@ public class ProjectileModeling {
         return (float) Math.atan2(verticalVelocity, horizontalVelocity);
     }
 
-    public boolean checkInputRadians(double radians, double xInit, double xFinal) {
+    public boolean checkInputRadians(double velocity, double radians, double xInit, double xFinal) {
         double max_x_distance = (xFinal - xInit);
-        double predicted_x_distance = (Math.sin(2 * radians) * Math.pow(horizontalVelocity, 2)) / gravity;
-        if (predicted_x_distance == max_x_distance) {
+        System.out.println(velocity + " " + radians + " " + (xFinal - xInit));
+        double time = velocity * Math.sin(radians) / (-gravity / 2);
+        System.out.println(time);
+        double predicted_x_distance = velocity * Math.cos(radians) * time;
+        System.out.println(max_x_distance);
+        System.out.println(predicted_x_distance);
+        if (Math.abs(predicted_x_distance - max_x_distance) <= 1) {
             return true;
         } else {
             return false;

@@ -26,8 +26,8 @@ public class App {
         frame.setSize(new Dimension(600, 600));
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         mainPanel = new MainPanel();
-        boolean[] isVariable = new boolean[] { false, false, true, true, true, true };
-        float[] givenValues = new float[] { 1000, 0, 100, 0.25f, 0, -10f };
+        boolean[] isVariable = new boolean[] { false, false, false, true, false, false };
+        float[] givenValues = new float[] { 1000, 0, 100, 0.1f, 0, -9.81f };
         mainPanel.newProblem(isVariable, givenValues);
         frame.setContentPane(mainPanel);
         frame.setVisible(true);

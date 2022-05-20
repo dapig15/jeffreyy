@@ -1,7 +1,7 @@
 import java.awt.Color;
 import java.awt.Graphics;
 import java.util.ArrayList;
-
+import java.util.Arrays;
 import java.awt.image.BufferedImage;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -39,6 +39,8 @@ public class MainPanel extends JPanel {
             'x', 'y', 's', 'a', 'h', 'v'
     };
 
+    private int deetCooldown = -50;
+
     class GameKeyAdapter implements KeyListener {
 
         @Override
@@ -49,6 +51,35 @@ public class MainPanel extends JPanel {
                         currentlyEditing = i;
                         stringBuilder = new StringBuilder(Float.toString(currentValues[i]));
                         System.out.println("editing mode!");
+                    }
+                }
+                if (Character.toLowerCase(e.getKeyChar()) == 'f') {
+                    System.out.println(Arrays.toString(currentValues));
+                    System.out.println(pm.getHorizontalVelocity());
+                    System.out.println(pm.getVerticalVelocity());
+                    System.out.println(pm.getGravity());
+                    System.out.println(pm.getSpeed());
+                    System.out.println(pm.getAngle());
+                    System.out.println(pm.checkInputRadians(currentValues[2], pm.getAngle(), 0, currentValues[0]));
+                    if (pm.checkInputRadians(currentValues[2], pm.getAngle(), 0, currentValues[0])) {
+                        deetCooldown = 0;
+                        boolean[] isVariable = new boolean[6];
+                        float[] givenValues = new float[6];
+                        double val = (Math.random() * 2);
+                        System.out.println(val);
+                        switch ((int) val) {
+                            case 0:
+                                isVariable = new boolean[] { false, false, false, true, false, false };
+                                givenValues = new float[] { 1000, 0, (int) (Math.random() * 101) + 100,
+                                        (float) (Math.random()), 0, -9.81f };
+                                break;
+                            case 1:
+                                isVariable = new boolean[] { false, false, true, false, false, false };
+                                givenValues = new float[] { 1000, 0, (int) (Math.random() * 101)
+                                        + 100, (float) (Math.random() * 0.2 + 0.15), 0, -9.81f };
+                                break;
+                        }
+                        newProblem(isVariable, givenValues);
                     }
                 }
             } else {
@@ -68,7 +99,7 @@ public class MainPanel extends JPanel {
                         newVal = Math.max(-10000f, Math.min(10000f, newVal));
                         currentValues[currentlyEditing] = newVal;
                         currentlyEditing = -1;
-                        
+
                     } catch (NumberFormatException nfe) {
                         nfe.printStackTrace();
                     }
@@ -135,8 +166,8 @@ public class MainPanel extends JPanel {
                 "When you're done, type ENTER to lock it in.\n" +
                 "Make sure you type a valid decimal!\n" +
                 "Click the tank to fire!";
-        pm = new ProjectileModeling(currentValues[5], (float) (currentValues[2] * Math.cos(currentValues[3])),
-                (float) (currentValues[2] * Math.sin(currentValues[3])));
+        pm = new ProjectileModeling(currentValues[5], (float) (currentValues[2] * Math.cos(currentValues[3] * Math.PI)),
+                (float) (currentValues[2] * Math.sin(currentValues[3] * Math.PI)));
     }
 
     public void update() {
@@ -149,7 +180,7 @@ public class MainPanel extends JPanel {
         int xChange = getWidth() / 2 - player.getCenterX();
         int yChange = getHeight() / 2 - player.getBottomY();
         g.translate(getWidth() / 2 - player.getCenterX(), getHeight() / 2 - player.getBottomY());
-        int pos = framesAlive * 10 % cloudBkgd.getWidth() - cloudBkgd.getWidth();
+        int pos = framesAlive % cloudBkgd.getWidth() - cloudBkgd.getWidth();
         while (pos < getWidth()) {
             g.drawImage(cloudBkgd, -xChange + pos, -yChange + getHeight() - cloudBkgd.getHeight(), null);
             pos += cloudBkgd.getWidth();
@@ -164,6 +195,11 @@ public class MainPanel extends JPanel {
         }
         generateText();
         FontGenerator.writeComplexText(g, text, 20 - xChange, 20 - yChange, colors, new float[] { 2, 1 });
+        if (deetCooldown > -49) {
+            deetCooldown--;
+            FontGenerator.writeCenteredText(g, "Success!", player.getCenterX(), player.getBottomY() - 30 + deetCooldown,
+                    1.5f, new Color(0, 0, 0, (50 + deetCooldown) / 50f));
+        }
     }
 }
 // "|Target's x-displacement: |1000 m\n" +
