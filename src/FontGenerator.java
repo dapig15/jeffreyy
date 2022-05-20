@@ -1,7 +1,6 @@
 
 import java.awt.Color;
 import java.awt.Graphics;
-import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -11,6 +10,10 @@ import javax.imageio.ImageIO;
 
 public class FontGenerator {
     private static final HashMap<Character, BufferedImage> letterMap = new HashMap<>();
+
+    public static HashMap<Character, BufferedImage> getLetterMap() {
+        return letterMap;
+    }
 
     public static void prime() {
         try {
@@ -78,29 +81,32 @@ public class FontGenerator {
         System.out.println(letterMap.get('h').getRGB(0, 0));
     }
 
-    public static void writeMulticoloredText(Graphics g, String str, int startX, int startY, float scale, Color[] fontColor) {
+    public static void writeComplexText(Graphics g, String str, int startX, int startY,
+            Color[] fontColor, float[] scale) {
         float curX = startX, curY = startY;
-        int counter = -1;
+        int colorCounter = -1, scaleCounter = 0;
         for (char c : str.toCharArray()) {
             if (c == '\n') {
                 curX = startX;
-                curY += 13 * scale;
+                curY += 13 * scale[scaleCounter];
             } else if (c == ' ') {
-                curX += 3 * scale;
+                curX += 3 * scale[scaleCounter];
             } else if (c == '|') {
-                counter++;
+                colorCounter++;
+            } else if (c == '&') {
+                scaleCounter++;
             } else {
                 BufferedImage letterToDraw = letterMap.get(c);
                 for (int i = 0; i < letterToDraw.getWidth(); i++) {
                     for (int j = 0; j < letterToDraw.getHeight(); j++) {
                         if (letterToDraw.getRGB(i, j) != 0) {
-                            letterToDraw.setRGB(i, j, fontColor[counter].getRGB());
+                            letterToDraw.setRGB(i, j, fontColor[colorCounter].getRGB());
                         }
                     }
                 }
-                g.drawImage(letterToDraw, (int) curX, (int) curY, (int) (letterToDraw.getWidth() * scale),
-                        (int) (letterToDraw.getHeight() * scale), null);
-                curX += (letterToDraw.getWidth() + 1) * scale;
+                g.drawImage(letterToDraw, (int) curX, (int) curY, (int) (letterToDraw.getWidth() * scale[scaleCounter]),
+                        (int) (letterToDraw.getHeight() * scale[scaleCounter]), null);
+                curX += (letterToDraw.getWidth() + 1) * scale[scaleCounter];
             }
         }
     }

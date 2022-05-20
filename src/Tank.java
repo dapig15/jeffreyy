@@ -2,7 +2,6 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
-import java.awt.image.ImagingOpException;
 import java.io.File;
 import java.io.IOException;
 
@@ -77,9 +76,9 @@ public class Tank {
         g.setColor(Color.black);
         Graphics2D g2d = (Graphics2D) g;
         g2d.translate(centerX, bottomY - height + noseOffset);
-        g2d.rotate(angle);
-        g.drawImage(tankNose, 0, 0, null);
         g2d.rotate(-angle);
+        g.drawImage(tankNose, 0, 0, null);
+        g2d.rotate(angle);
         g2d.translate(-centerX, -(bottomY - height + noseOffset));
         if (Math.abs(Math.PI - angle) >= (Math.PI / 2)) {
             g.drawImage(tankBody, centerX - width / 2, bottomY - height, width, height, null);

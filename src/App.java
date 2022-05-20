@@ -26,9 +26,9 @@ public class App {
         frame.setSize(new Dimension(600, 600));
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         mainPanel = new MainPanel();
-        String[] givens = {"Target's x-displacement","Target's y-displacement","Initial |S|peed"};
-        String[] values = {"1000 m","0 m","5 m/s"};
-        mainPanel.newProblem("Fire angle",givens,values);
+        boolean[] isVariable = new boolean[] { false, false, true, true, true, true };
+        float[] givenValues = new float[] { 1000, 0, 100, 0.25f, 0, -9.81f };
+        mainPanel.newProblem(isVariable, givenValues);
         frame.setContentPane(mainPanel);
         frame.setVisible(true);
         timer = new Timer();
@@ -38,7 +38,10 @@ public class App {
                 SwingUtilities.invokeLater(new Runnable() {
                     @Override
                     public void run() {
-                        mainPanel.update();
+                        if (frame.isFocused()) {
+                            mainPanel.requestFocus();
+                            mainPanel.update();
+                        }
                         mainPanel.repaint();
                     }
                 });
